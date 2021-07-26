@@ -6,10 +6,10 @@ const jwt = require("jsonwebtoken");
 exports.Signup = async (req, res) => {
     try {
         // req.body
-        const { userName, password } = req.body;
+        const { username, password } = req.body;
 
         // check if the email already exists in the database
-        const FoundUser = await User.findOne({ userName });
+        const FoundUser = await User.findOne({ username });
 
         if (FoundUser) {
             res.status(400).send({
@@ -17,7 +17,7 @@ exports.Signup = async (req, res) => {
             });
             return;
         }
-        const newUser = new User({ role: "user", userName, password });
+        const newUser = new User({ role: "user", username, password });
 
         // hash the password
         const hashedpassword = bcrypt.hashSync(password, salt);
@@ -37,7 +37,6 @@ exports.Signup = async (req, res) => {
             .status(200)
             .send({ user: newUser, token });
     } catch (error) {
-        console.log(error);
         res.status(400).send({ error: error.message });
     }
 };
@@ -45,9 +44,9 @@ exports.Signup = async (req, res) => {
 exports.SignIn = async (req, res) => {
     try {
         // get the req.body
-        const { userName, password } = req.body;
+        const { username, password } = req.body;
         // search if the user exists
-        const searchUser = await User.findOne({ userName });
+        const searchUser = await User.findOne({ username });
 
         // send an error if he didnt exist
         if (!searchUser) {

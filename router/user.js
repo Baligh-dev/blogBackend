@@ -8,12 +8,11 @@ const isAuth = require("../middlewares/auth_jwt");
 
 const {
     registerValidation,
-    signinValidation,
     validation,
 } = require("../middlewares/user");
 // route user (signin + signup)
 router.post("/signup", registerValidation(), validation, Signup);
-router.post("/signin", signinValidation(), validation, SignIn);
+router.post("/login", SignIn);
 router.get("/current", isAuth, (req, res) => {
     res.send(req.user);
 });
